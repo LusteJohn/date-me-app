@@ -26,6 +26,9 @@ export default function App() {
     setTimeout(() => {
       setStep(n)
       setLeaving(false)
+      requestAnimationFrame(() => {
+        document.querySelector('.card')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+      })
     }, 300)
   }
   const nav = { onBack: () => go(step - 1), onNext: () => go(step + 1) }
@@ -51,7 +54,7 @@ export default function App() {
           {step === 0 && <Question onYes={() => go(1)} />}
 
           {step === 1 && (
-            <WhenStep form={form} set={set} {...nav1} showTip={tip} nextLabel={tip ? 'Recording 💘' : 'Next'} />
+            <WhenStep form={form} set={set} {...nav1} showTip={tip} nextLabel={tip ? 'One sec… 💕' : 'Next'} />
           )}
 
           {step === 2 && (

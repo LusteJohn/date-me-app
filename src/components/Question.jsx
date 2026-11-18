@@ -41,7 +41,7 @@ export default function Question({ onYes }) {
         </span>
         <span
           className={`nowrap ${shake ? 'shake' : ''}`}
-          data-tip={TIPS[tries % TIPS.length]}
+          data-tip={tries > 0 ? `${TIPS[(tries - 1) % TIPS.length]} (${tries})` : TIPS[0]}
           onMouseEnter={handleHover}
           onAnimationEnd={() => setShake(false)}
         >
