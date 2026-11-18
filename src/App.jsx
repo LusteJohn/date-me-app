@@ -56,7 +56,9 @@ export default function App() {
 
           {step === 2 && (
             <StepShell title="Where should we go?" sub="Pick a spot, or tell me your own."
-              {...nav} nextDisabled={!form.location.length && !form.customPlace.trim()}>
+              {...nav} nextDisabled={!form.location.length && !form.customPlace.trim()}
+              nudge="Pick a place first 🌸">
+
               <OptionGrid options={LOCATIONS} selected={form.location} onChange={set('location')} />
               <label className="lbl" htmlFor="place">Somewhere else?</label>
               <input id="place" type="text" maxLength={60} placeholder="Type a place you love"
@@ -66,14 +68,15 @@ export default function App() {
 
           {step === 3 && (
             <StepShell title="What’s the vibe?" sub="Pick as many as you like."
-              {...nav} nextDisabled={!form.type.length}>
+              {...nav} nextDisabled={!form.type.length} nudge="Pick at least one vibe ✨">
               <OptionGrid multi options={TYPES} selected={form.type} onChange={set('type')} />
             </StepShell>
           )}
 
           {step === 4 && (
             <StepShell title="Let’s eat and drink" sub="Choose at least one of each."
-              {...nav} nextLabel="Review" nextDisabled={!form.food.length || !form.drink.length}>
+              {...nav} nextLabel="Review" nextDisabled={!form.food.length || !form.drink.length}
+              nudge="Pick at least one food and drink 🍜">
               <h3>Food</h3>
               <OptionGrid multi options={FOODS} selected={form.food} onChange={set('food')} />
               <h3>Drinks</h3>

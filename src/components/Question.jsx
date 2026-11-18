@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { burstFrom } from '../utils/burst'
+import { useSparkleTrail } from './SparkleTrail'
 
-const TIPS = ['Nice try 😏', 'Are you sure? 🥺', 'Wrong button 😅', 'Pretty please? 💕', 'Just say yes 😘']
-const YES_TIPS = ['Yes please! 🥰', 'Best choice 💕', 'Aww, yes! 😍', 'Correct answer 💖', 'I knew it 😘']
+const TIPS = ['Nice try 😏', 'Are you sure? 🥺', 'Wrong button 😅', 'Pretty please? 💕', 'Just say yes 😘', 'The button is shy 🙈']
+const YES_TIPS = ['Yes please! 🥰', 'Best choice 💕', 'Aww, yes! 😍', 'Correct answer 💖', 'I knew it 😘', 'You picked well 💘']
 
 export default function Question({ onYes }) {
+  const heroRef = useRef(null)
+  useSparkleTrail(heroRef)
   const [shake, setShake] = useState(false)
   const [tries, setTries] = useState(0)
   const [yesTries, setYesTries] = useState(0)
@@ -23,7 +26,7 @@ export default function Question({ onYes }) {
   }
 
   return (
-    <div className="hero">
+    <div className="hero" ref={heroRef}>
       <div className="bigheart">💘</div>
       <h1>Do you want to date me?</h1>
       <p className="sub">Choose carefully <mark className="hl">"My Pahinga❣️"</mark>. Only one button works.</p>

@@ -24,6 +24,17 @@ export function summaryLines(f) {
   return rows
 }
 
+export const formatDate = (date) =>
+  date ? new Date(`${date}T12:00`).toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) : ''
+
+export const formatTime = (time) => {
+  if (!time) return ''
+  const [h, m] = time.split(':').map(Number)
+  const d = new Date()
+  d.setHours(h, m, 0, 0)
+  return d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })
+}
+
 export function gmailUrl(f) {
   const body =
     `She said YES! 💖\n\nEvent: ${f.eventName.trim()}\n` +

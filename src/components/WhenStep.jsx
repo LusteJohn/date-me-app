@@ -13,6 +13,7 @@ export default function WhenStep({ form, set, nextLabel, showTip, ...nav }) {
       nextLabel={nextLabel}
       showTip={showTip}
       tip="Almost there! 💌"
+      nudge="Name it, pick a day and time 💫"
       {...nav}
     >
       <label className="lbl" htmlFor="ev">Name your date</label>
