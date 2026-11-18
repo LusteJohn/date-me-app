@@ -1,4 +1,4 @@
-import { YOUR_EMAIL, EMAILJS, emailjsReady } from '../config'
+import { YOUR_EMAIL, EMAILJS, emailjsReady, missingEmailVars } from '../config'
 import { formatWhen, places, summaryLines } from './email'
 
 const esc = (s) =>
@@ -99,7 +99,10 @@ function loadEmailJs() {
 
 export async function sendDateEmail(f) {
   if (!emailjsReady()) {
-    throw new Error('EmailJS is not configured. Set VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID and VITE_EMAILJS_PUBLIC_KEY.')
+    throw new Error(
+      `EmailJS is not configured. Missing: ${missingEmailVars().join(', ')}. ` +
+        'Add these to Vercel → Settings → Environment Variables, then redeploy (Vite bakes VITE_* vars at build time).'
+    )
   }
   const emailjs = await loadEmailJs()
   emailjs.init({ publicKey: EMAILJS.publicKey })
