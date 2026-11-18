@@ -1,11 +1,33 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { summaryLines, gmailUrl } from '../utils/email'
 import { sendDateEmail } from '../utils/sendEmail'
 import { burstFrom } from '../utils/burst'
 
+const PLACEHOLDERS = [
+  'Say something sweet (optional)',
+  "I'll bring the snacks 💕",
+  'Pick me up at 7? 😘',
+  'Wear something cute 💐',
+  'Can’t wait for this one 🥰',
+]
+
 export default function Summary({ form, onNote, onBack }) {
   const [status, setStatus] = useState('idle') // idle | sending | sent | error
   const [error, setError] = useState('')
+  const [restamp, setRestamp] = useState(false)
+  const [ph, setPh] = useState(0)
+
+  useEffect(() => {
+    const stampTimer = setInterval(() => {
+      setRestamp(true)
+      setTimeout(() => setRestamp(false), 1000)
+    }, 5000)
+    const phTimer = setInterval(() => setPh((p) => (p + 1) % PLACEHOLDERS.length), 3800)
+    return () => {
+      clearInterval(stampTimer)
+      clearInterval(phTimer)
+    }
+  }, [])
 
   const handleSend = async (e) => {
     if (status === 'sending') return
@@ -28,7 +50,7 @@ export default function Summary({ form, onNote, onBack }) {
 
       <div className="ticket">
         <div className="ticket-head">
-          <span className="stamp">YES 💖</span>
+          <span className={`stamp ${restamp ? 'restamp' : ''}`}>YES 💖</span>
           <h3>{form.eventName.trim()}</h3>
           <p>Reserved just for the two of us</p>
         </div>
@@ -47,7 +69,7 @@ export default function Summary({ form, onNote, onBack }) {
         id="note"
         rows="3"
         maxLength={300}
-        placeholder="Say something sweet (optional)"
+        placeholder={PLACEHOLDERS[ph]}
         value={form.note}
         onChange={(e) => onNote(e.target.value)}
         disabled={status === 'sending'}
