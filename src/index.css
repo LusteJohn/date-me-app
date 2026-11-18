@@ -57,6 +57,9 @@ input:focus,textarea:focus,button:focus-visible,.opt:focus-visible{outline:3px s
 .pop{position:fixed;font-size:26px;pointer-events:none;animation:pop 1.2s ease-out forwards;z-index:9}
 @keyframes pop{from{opacity:1;transform:translate(0,0) scale(.5)}to{opacity:0;transform:translate(var(--x),var(--y)) scale(1.4) rotate(40deg)}}
 .sent{text-align:center;margin-top:10px;color:var(--rose);font-weight:700}
+.send-error{text-align:center;margin-top:10px}
+.send-error .btn.next{display:inline-block;margin-top:6px}
+.err-detail{margin:8px 0 0;font-size:.78rem;color:var(--muted);word-break:break-word}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
 /* ---- v2 additions ---- */
