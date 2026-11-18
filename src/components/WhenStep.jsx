@@ -12,7 +12,8 @@ export default function WhenStep({ form, set, nextLabel, showTip, ...nav }) {
       nextDisabled={!ready}
       nextLabel={nextLabel}
       showTip={showTip}
-      tip="Almost there! 💌"
+      showBack={false}
+      tip="Grab my hand 🤝☕"
       nudge="Name it, pick a day and time 💫"
       {...nav}
     >

@@ -94,7 +94,7 @@ export default function Summary({ form, onNote, onBack }) {
       )}
 
       <div className="nav">
-        <button className="back" onClick={onBack} disabled={status === 'sending'}>Back</button>
+        <button className="back" onClick={onBack} disabled={status === 'sending'}>← Back</button>
         <span />
       </div>
     </>
