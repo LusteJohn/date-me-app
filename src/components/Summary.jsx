@@ -1,9 +1,25 @@
 import { useState } from 'react'
 import { summaryLines, gmailUrl } from '../utils/email'
+import { sendDateEmail } from '../utils/sendEmail'
 import { burstFrom } from '../utils/burst'
 
 export default function Summary({ form, onNote, onBack }) {
-  const [sent, setSent] = useState(false)
+  const [status, setStatus] = useState('idle') // idle | sending | sent | error
+  const [error, setError] = useState('')
+
+  const handleSend = async (e) => {
+    if (status === 'sending') return
+    burstFrom(e.currentTarget)
+    setStatus('sending')
+    setError('')
+    try {
+      await sendDateEmail(form)
+      setStatus('sent')
+    } catch (err) {
+      setError(err?.message || 'Something went wrong while sending.')
+      setStatus('error')
+    }
+  }
 
   return (
     <>
@@ -34,24 +50,29 @@ export default function Summary({ form, onNote, onBack }) {
         placeholder="Say something sweet (optional)"
         value={form.note}
         onChange={(e) => onNote(e.target.value)}
+        disabled={status === 'sending'}
       />
+
       <div className="btns" style={{ marginTop: 6 }}>
-        <a
-          className="btn next"
-          href={gmailUrl(form)}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => {
-            burstFrom(e.currentTarget)
-            setSent(true)
-          }}
-        >
-          Send to his Gmail 💌
-        </a>
+        <button className="next" onClick={handleSend} disabled={status === 'sending' || status === 'sent'}>
+          {status === 'sending' ? 'Sending 💌…' : status === 'sent' ? 'Sent! 💖' : 'Send to his Gmail 💌'}
+        </button>
       </div>
-      {sent && <p className="sent">Your Gmail draft is ready. Press send there to finish.</p>}
+
+      {status === 'sent' && <p className="sent">Your date invite is on its way. Check his inbox 💕</p>}
+
+      {status === 'error' && (
+        <div className="send-error">
+          <p className="sent">Couldn’t send automatically. 😢</p>
+          <a className="btn next" href={gmailUrl(form)} target="_blank" rel="noopener noreferrer">
+            Open Gmail draft instead 💌
+          </a>
+          {error && <p className="err-detail">{error}</p>}
+        </div>
+      )}
+
       <div className="nav">
-        <button className="back" onClick={onBack}>Back</button>
+        <button className="back" onClick={onBack} disabled={status === 'sending'}>Back</button>
         <span />
       </div>
     </>
