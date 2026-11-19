@@ -1,0 +1,54 @@
+/* Loaded after index.css (see main.jsx) */
+
+[tabindex="-1"]:focus { outline: none }
+
+/* slide direction: Back slides in from the left */
+@keyframes inback { from { opacity: 0; transform: translateX(-40px) scale(.98) } to { opacity: 1; transform: none } }
+@keyframes outback { to { opacity: 0; transform: translateX(40px) scale(.98) } }
+.step.active.back { animation-name: inback }
+.step.leaving.back { animation-name: outback }
+
+/* progress: tappable segments with a larger hit area */
+.steps { align-items: center }
+.steps .seg {
+  flex: 1; height: 22px; padding: 0; margin: 0; border: 0; border-radius: 0;
+  background: transparent; box-shadow: none; position: relative; cursor: default; pointer-events: none;
+}
+.steps .seg::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 8px; height: 6px; border-radius: 9px;
+  background: var(--chip); transition: background .5s, transform .25s;
+}
+.steps .seg.on::before { background: linear-gradient(90deg, var(--rose2), var(--rose)) }
+.steps .seg:not(:disabled) { cursor: pointer; pointer-events: auto }
+.steps .seg:not(:disabled):hover::before { transform: scaleY(1.7) }
+.steplabel .hint { margin-left: auto; font-weight: 500; opacity: .7 }
+
+/* visible nudge under a disabled Next (works on touch) */
+.next:disabled { pointer-events: none }
+.nudge { margin: 10px 0 0; text-align: right; font-size: .85rem; font-weight: 700; color: var(--rose) }
+.nudge:empty { display: none }
+.nudge.poke { animation: shake .4s }
+.warn { color: var(--rose); font-weight: 700; font-size: .9rem; margin: 6px 0 0 }
+
+/* hover tooltips make no sense on touch screens; "No" gets a timed one instead */
+.nowrap.show::after { opacity: 1; transform: translateX(-50%) }
+@media (hover: none) { .tip::after { display: none } }
+
+/* editable summary rows */
+.rows div.row-edit { cursor: pointer; margin: 0 -8px; padding-left: 8px; padding-right: 8px; border-radius: 10px; transition: background .2s }
+.rows div.row-edit:hover, .rows div.row-edit:focus-visible { background: var(--chip) }
+.rows .row-edit:focus-visible { outline: 3px solid var(--rose2); outline-offset: 2px }
+.rows div.row-edit span::after { content: " ✎"; opacity: .45; font-size: .85em }
+.edit-hint { font-size: .8rem; color: var(--muted); text-align: center; margin: -6px 0 8px }
+.stamp { cursor: pointer }
+
+/* success screen */
+.success { text-align: center }
+.success h2 { margin-top: 6px }
+.countdown { display: flex; gap: 10px; justify-content: center; margin: 18px 0 8px }
+.countdown div { background: #fff; border-radius: 16px; padding: 12px 6px; min-width: 76px; box-shadow: var(--shadow-sm) }
+.countdown b { display: block; font-family: Fraunces, Georgia, serif; font-size: 2rem; line-height: 1; color: var(--rose) }
+.countdown span { font-size: .78rem; color: var(--muted); font-weight: 700 }
+.success .when { color: var(--muted); font-weight: 700; margin: 6px 0 18px }
+.btns.col { flex-direction: column; align-items: stretch; max-width: 320px; margin-left: auto; margin-right: auto }
+.btn.alt { background: var(--chip); color: var(--ink) }

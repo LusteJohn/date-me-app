@@ -5,6 +5,7 @@ export function emailParams(f) {
   const name = f.eventName.trim()
   return {
     to_email: YOUR_EMAIL,
+    cc_email: f.herEmail?.trim() || '',
     subject: `She said YES! ${name} 💘`,
     event_name: name,
     event_date: formatDate(f.date),
@@ -16,6 +17,8 @@ export function emailParams(f) {
     event_drink: f.drink.join(', '),
     event_notes: f.extras.trim() || 'None',
     her_note: f.note.trim() || 'No note, just vibes 💕',
+    excitement: f.excitement ? '💗'.repeat(f.excitement) : 'Not rated',
+    excitement_level: String(f.excitement || 0),
   }
 }
 

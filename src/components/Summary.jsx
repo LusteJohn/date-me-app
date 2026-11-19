@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react'
 import { summaryLines, gmailUrl } from '../utils/email'
 import { sendDateEmail } from '../utils/sendEmail'
+import { downloadIcs } from '../utils/calendar'
+import { playChime } from '../utils/sound'
 import { burstFrom } from '../utils/burst'
+import ExcitementMeter from './ExcitementMeter'
+import Success from './Success'
 
 const PLACEHOLDERS = [
   'Say something sweet (optional)',
@@ -11,7 +15,7 @@ const PLACEHOLDERS = [
   'Can’t wait for this one 🥰',
 ]
 
-export default function Summary({ form, onNote, onBack }) {
+export default function Summary({ form, set, onBack }) {
   const [status, setStatus] = useState('idle') // idle | sending | sent | error
   const [error, setError] = useState('')
   const [restamp, setRestamp] = useState(false)
@@ -36,12 +40,15 @@ export default function Summary({ form, onNote, onBack }) {
     setError('')
     try {
       await sendDateEmail(form)
+      playChime()
       setStatus('sent')
     } catch (err) {
       setError(err?.message || 'Something went wrong while sending.')
       setStatus('error')
     }
   }
+
+  const emailOk = !form.herEmail.trim() || /.+@.+\..+/.test(form.herEmail.trim())
 
   return (
     <>
@@ -61,8 +68,21 @@ export default function Summary({ form, onNote, onBack }) {
               <span>{v}</span>
             </div>
           ))}
+          {form.excitement ? (
+            <div>
+              <b>Excitement</b>
+              <span>{'💗'.repeat(form.excitement)}</span>
+            </div>
+          ) : null}
         </div>
       </div>
+
+      <div className="btns" style={{ marginTop: 4, marginBottom: 4 }}>
+        <button className="back" type="button" onClick={() => downloadIcs(form)}>Add to calendar 📅</button>
+      </div>
+
+      <label className="lbl">How excited are you?</label>
+      <ExcitementMeter value={form.excitement} onChange={set('excitement')} />
 
       <label className="lbl" htmlFor="note">A little message for him</label>
       <textarea
@@ -71,17 +91,28 @@ export default function Summary({ form, onNote, onBack }) {
         maxLength={300}
         placeholder={PLACEHOLDERS[ph]}
         value={form.note}
-        onChange={(e) => onNote(e.target.value)}
+        onChange={(e) => set('note')(e.target.value)}
+        disabled={status === 'sending'}
+      />
+
+      <label className="lbl" htmlFor="her-email">Want a copy too?</label>
+      <input
+        id="her-email"
+        type="email"
+        maxLength={80}
+        placeholder="your.email@example.com (optional)"
+        value={form.herEmail}
+        onChange={(e) => set('herEmail')(e.target.value)}
         disabled={status === 'sending'}
       />
 
       <div className="btns" style={{ marginTop: 6 }}>
-        <button className="next" onClick={handleSend} disabled={status === 'sending' || status === 'sent'}>
+        <button className="next" onClick={handleSend} disabled={status === 'sending' || status === 'sent' || !emailOk}>
           {status === 'sending' ? 'Sending 💌…' : status === 'sent' ? 'Sent! 💖' : 'Send to his Gmail 💌'}
         </button>
       </div>
 
-      {status === 'sent' && <p className="sent">Your date invite is on its way. Check his inbox 💕</p>}
+      {!emailOk && <p className="err-detail" style={{ textAlign: 'center' }}>That email looks a little off 🌸</p>}
 
       {status === 'error' && (
         <div className="send-error">
@@ -97,6 +128,8 @@ export default function Summary({ form, onNote, onBack }) {
         <button className="back" onClick={onBack} disabled={status === 'sending'}>← Back</button>
         <span />
       </div>
+
+      {status === 'sent' && <Success form={form} onReplay={onBack} />}
     </>
   )
 }

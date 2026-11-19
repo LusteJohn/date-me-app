@@ -30,10 +30,9 @@ export const emailjsReady = () => missingEmailVars().length === 0
 
 if (import.meta.env.DEV) {
   const missing = missingEmailVars()
-  console.info('[EmailJS] config', {
-    serviceId: EMAILJS.serviceId || '(missing)',
-    templateId: EMAILJS.templateId || '(missing)',
-    publicKey: EMAILJS.publicKey ? `set (${EMAILJS.publicKey.length} chars)` : '(missing)',
-    missing,
-  })
+  if (missing.length) {
+    console.warn(
+      `Missing EmailJS env vars: ${missing.join(', ')}. Email sending will not work until these are set.`
+    )
+  }
 }

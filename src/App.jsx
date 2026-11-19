@@ -6,7 +6,9 @@ import WhenStep from './components/WhenStep'
 import StepShell from './components/StepShell'
 import OptionGrid from './components/OptionGrid'
 import Summary from './components/Summary'
-import { LOCATIONS, TYPES, FOODS, DRINKS } from './data/options'
+import SoundToggle from './components/SoundToggle'
+import Chips from './components/Chips'
+import { LOCATIONS, TYPES, FOODS, DRINKS, LOCAL_SPOTS } from './data/options'
 
 const LABELS = ['When', 'Where', 'Vibe', 'Menu', 'Confirm']
 
@@ -18,8 +20,17 @@ export default function App() {
     eventName: '', date: '', time: '18:30',
     location: [], customPlace: '',
     type: [], food: [], drink: [], extras: '', note: '',
+    excitement: 0, herEmail: '',
   })
   const set = (key) => (value) => setForm((f) => ({ ...f, [key]: value }))
+
+  const pickSpot = (value) => {
+    setForm((f) => ({
+      ...f,
+      customPlace: value,
+      location: f.location.filter((x) => x !== value),
+    }))
+  }
 
   const go = (n) => {
     setLeaving(true)
@@ -45,6 +56,7 @@ export default function App() {
 
   return (
     <>
+      <SoundToggle />
       <FloatingHearts />
       <main className="card">
         {step > 0 && <ProgressBar step={step} labels={LABELS} />}
@@ -66,6 +78,9 @@ export default function App() {
               <label className="lbl" htmlFor="place">Somewhere else?</label>
               <input id="place" type="text" maxLength={60} placeholder="Type a place you love"
                 value={form.customPlace} onChange={(e) => set('customPlace')(e.target.value)} />
+              <div className="spot-chips">
+                <Chips items={LOCAL_SPOTS} value={form.customPlace} onPick={pickSpot} />
+              </div>
             </StepShell>
           )}
 
@@ -90,7 +105,7 @@ export default function App() {
             </StepShell>
           )}
 
-          {step === 5 && <Summary form={form} onNote={set('note')} onBack={nav.onBack} />}
+          {step === 5 && <Summary form={form} set={set} onBack={nav.onBack} />}
         </section>
       </main>
     </>
