@@ -40,7 +40,19 @@ export async function sendDateEmail(f) {
   }
   const emailjs = await loadEmailJs()
   emailjs.init({ publicKey: EMAILJS.publicKey })
-  return emailjs.send(EMAILJS.serviceId, EMAILJS.templateId, emailParams(f))
+  try {
+    return await emailjs.send(EMAILJS.serviceId, EMAILJS.templateId, emailParams(f), {
+      publicKey: EMAILJS.publicKey,
+    })
+  } catch (err) {
+    const detail =
+      err?.text ||
+      err?.response?.text ||
+      err?.message ||
+      (typeof err === 'string' ? err : JSON.stringify(err))
+    const status = err?.status || err?.response?.status || ''
+    throw new Error(`EmailJS ${status ? `(${status}) ` : ''}${detail}`)
+  }
 }
 
 export { gmailUrl } from './email'

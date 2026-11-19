@@ -36,4 +36,11 @@ export const QUICK_TIMES = [
   { label: '🌙 Late night', value: '21:00' },
 ]
 
-export const NAME_IDEAS = ['Our First Date', 'Date Night', 'Dinner Under the Stars', 'Coffee & Kilig', 'Adventure Day']
+export const NAME_IDEAS = [
+  'Our First Date',
+  'Date Night',
+  'Dinner Under the Stars',
+  'Coffee & Kilig',
+  'Adventure Day',
+  { label: 'Lights On on the park', value: 'Lights On on the park', badge: 'new' },
+]
