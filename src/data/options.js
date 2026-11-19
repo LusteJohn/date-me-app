@@ -41,3 +41,14 @@ export const DRINKS = [
   { e: '🥭', v: 'Mango shake' },
   { e: '🥤', v: 'Fruit juice' },
 ]
+
+export const LOCAL_SPOTS = [
+  { e: '☕', v: 'Café Talk, IT Park' },
+  { e: '🥐', v: 'La Marea, Crossroads' },
+  { e: '🌅', v: 'Tops Lookout' },
+  { e: '⛰️', v: 'Sirao Flower Garden' },
+  { e: '🏖️', v: 'Mactan beach' },
+  { e: '🌊', v: 'Cebu Ocean Park' },
+  { e: '🍢', v: 'Larsian sa Fuente' },
+  { e: '🌳', v: 'Plaza Independencia' },
+]

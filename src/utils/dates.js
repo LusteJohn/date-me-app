@@ -26,7 +26,12 @@ export function quickDates() {
     { label: 'Sunday', value: toISO(nextDow(0)) },
     { label: 'Next Saturday', value: toISO(nextSat) },
   ]
-  return list.filter((x, i) => list.findIndex((y) => y.value === x.value) === i)
+  const seen = new Set()
+  return list.filter(({ value }) => {
+    if (seen.has(value)) return false
+    seen.add(value)
+    return true
+  })
 }
 
 export const QUICK_TIMES = [
@@ -42,5 +47,5 @@ export const NAME_IDEAS = [
   'Dinner Under the Stars',
   'Coffee & Kilig',
   'Adventure Day',
-  { label: 'Lights On on the park', value: 'Lights On on the park', badge: 'new' },
+  { label: 'Lights On on the Park', value: 'Lights On on the Park', badge: 'new' },
 ]

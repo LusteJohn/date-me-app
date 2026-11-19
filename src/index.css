@@ -859,3 +859,25 @@ input[type=text] {
 .rows span {
     text-align: right
 }
+/* ---- celebration, countdown, excitement, sound ---- */
+.confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 20 }
+.confetti span { position: absolute; top: -30px; animation: confettifall ease-in forwards }
+@keyframes confettifall { 0% { opacity: 0; transform: translateY(0) translateX(0) rotate(0) scale(.6) } 10% { opacity: 1 } 100% { opacity: 0; transform: translateY(105vh) translateX(var(--drift)) rotate(320deg) scale(1.1) } }
+
+.success { position: relative; animation: in .5s cubic-bezier(.2,.8,.2,1) }
+.success-heart { font-size: 54px; text-align: center; animation: beat 1.3s ease-in-out infinite }
+.countdown { background: var(--card2); border: 2px dashed var(--rose2); border-radius: 18px; padding: 12px 14px; margin: 0 0 4px; text-align: center; box-shadow: var(--shadow-sm) }
+.cd-label { font-size: .82rem; font-weight: 700; color: var(--rose); margin-bottom: 8px }
+.cd-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px }
+.cd-cell { background: #fff; border-radius: 12px; padding: 8px 4px; box-shadow: var(--shadow-sm) }
+.cd-cell b { display: block; font-family: Fraunces, Georgia, serif; font-size: 1.25rem; color: var(--ink) }
+.cd-cell small { font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted2) }
+.excite { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 0 0 6px }
+.excite-heart { background: #fff; border: 2px solid var(--chip); border-radius: 999px; width: 44px; height: 44px; padding: 0; font-size: 19px; line-height: 1; display: grid; place-items: center; box-shadow: var(--shadow-sm); filter: grayscale(1); opacity: .75; transition: transform .25s var(--spring), border-color .25s, filter .25s, opacity .25s }
+.excite-heart.on { filter: none; opacity: 1; border-color: var(--rose2) }
+.excite-heart.current { border-color: var(--rose); transform: scale(1.1); box-shadow: var(--glow-sm) }
+.excite-label { font-size: .82rem; font-weight: 700; color: var(--muted2); margin-left: 4px }
+.sound-toggle { position: fixed; top: 14px; right: 14px; z-index: 30; width: 42px; height: 42px; padding: 0; border-radius: 50%; background: rgba(255, 243, 246, .9); border: 2px solid var(--chip); font-size: 17px; line-height: 1; display: grid; place-items: center; box-shadow: var(--shadow-sm); cursor: pointer }
+.sound-toggle.on { border-color: var(--rose2); box-shadow: var(--glow-sm) }
+.spot-chips { margin: 0 0 8px }
+@media (max-width: 420px) { .cd-cell b { font-size: 1.05rem } .excite-heart { width: 40px; height: 40px; font-size: 17px } }

@@ -1,5 +1,8 @@
+import { playPop } from '../utils/sound'
+
 export default function OptionGrid({ options, selected, onChange, multi = false }) {
   const toggle = (v) => {
+    playPop()
     if (!multi) return onChange([v])
     onChange(selected.includes(v) ? selected.filter((x) => x !== v) : [...selected, v])
   }
